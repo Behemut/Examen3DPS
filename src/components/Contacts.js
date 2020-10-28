@@ -1,10 +1,13 @@
-import ContactsForm from "./ContactsForm"
 import React, { useState, useEffect } from "react"
 import firebaseDb from "../firebase"
-import { toast } from "react-toastify";
+import { ToastContainer, toast, Zoom, Bounce} from 'react-toastify';
+import axios from 'axios'
+import ContactsForm from "./ContactsForm"
+
 
 const Contacts = () =>{
 
+    <ToastContainer/>
     var [contactObjs, setcontactObjs] = useState({});
     var [currentId, setCurrentId] = useState('');
 
@@ -24,9 +27,7 @@ const Contacts = () =>{
          if (currentId === "") {
 
                 firebaseDb.child('contacts').push(obj,err =>{if(err) console.log(err)});
-                toast("Se agrego un Alumno", {
-                    type: "success",
-                   });
+                toast.success("Registro añadido con éxito");
             }
         else{
             firebaseDb.child(`contacts/${currentId}`).set(
@@ -36,7 +37,7 @@ const Contacts = () =>{
                     else
                     setCurrentId('')
                 });
-                toast("Se actualizo un Alumno", {type: "success"});
+                toast("Registro actualizado", {type: "info"});
             }
         }
 
@@ -49,7 +50,7 @@ const Contacts = () =>{
                         else
                         setCurrentId('')
                     });
-                    toast("Se elimino un contacto", {type: "error"});
+                    toast.error("Registro eliminado");
             }
         }
     
