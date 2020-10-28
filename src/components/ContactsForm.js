@@ -1,30 +1,39 @@
 import React,{useState, useEffect} from "react";
 
+
+
 const ContactsForm = (props) =>{
 
-    const initialFielValue={
+    const initialFieldValue={
         fullname: '',
         mobile: '',
         email: '',
-        address: '',
+        address: ''
         }
 
-        var  [values,setValues]= useState(initialFielValue)
+    const [values,setValues]= useState(initialFieldValue);
 
 const handleInputChange = e =>{
-    var {name, value} =e.target 
-
-    setValues({
-        ...values,
-        [name]: value
-    });
+    const {name, value} = e.target ;
+    setValues({...values,[name]: value});
 }
 
 const handleFormSubmit = e =>{
     e.preventDefault();
 
-    props.addOrEdit(values);
+   props.addOrEdit(values);
+    setValues({...initialFieldValue});
 }
+
+useEffect(()=>{
+if (props.currentId ==='')
+    setValues({...initialFieldValue})
+else
+setValues({
+    ...props.contactObjs[props.currentId]
+})
+},[props.currentId, props.contactObjs])
+
 
 
 return (
@@ -73,17 +82,10 @@ return (
       onChange={handleInputChange} ></input>
     </div>
 
-    <div className="form-group input-group">
-        <div className="input-group-prepend">
-            <div className="input-group-text">
-            <i className="fas fa-home"></i>
-        </div>
+    <div className="form-group">
+    <input type="submit" value="Save" className="btn btn-primary btn-block" />
+  
     </div>
-    <div className="form-control">
-    <input type="submit" value="Save" className="btn btn-primary btn-block"></input>
-    </div>
-    </div>
-
 
    </form>
 
