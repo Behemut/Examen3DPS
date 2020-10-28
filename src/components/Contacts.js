@@ -1,8 +1,7 @@
 import ContactsForm from "./ContactsForm"
 import React, { useState, useEffect } from "react"
 import firebaseDb from "../firebase"
-
-
+import { toast } from "react-toastify";
 
 const Contacts = () =>{
 
@@ -13,22 +12,48 @@ const Contacts = () =>{
     useEffect(()=>{
         firebaseDb.child('contacts').on('value', snapshot=> {
             if(snapshot.val()!=null)
-            setcontactObjs({
-                ...snapshot.val()
-            })
+            setcontactObjs({...snapshot.val()})
+            else
+               setcontactObjs({})
         })
     },[])
 
-
-
-    const addOrEdit =  (obj) => {
-     firebaseDb.child('contacts').push(obj,err =>{if(err) console.log(err);})
-    
-          
-    };
-
-
   
+    const addOrEdit =  (obj) => {
+  
+         if (currentId === "") {
+
+                firebaseDb.child('contacts').push(obj,err =>{if(err) console.log(err)});
+                toast("Se agrego un Alumno", {
+                    type: "success",
+                   });
+            }
+        else{
+            firebaseDb.child(`contacts/${currentId}`).set(
+                obj,err =>{
+                    if(err)
+                     console.log(err) 
+                    else
+                    setCurrentId('')
+                });
+                toast("Se actualizo un Alumno", {type: "success"});
+            }
+        }
+
+        const onDelete = key =>{
+            if(window.confirm('¿Esta seguro de eliminar el registro?')){
+                firebaseDb.child(`contacts/${key}`).remove(
+                    err =>{
+                        if(err)
+                         console.log(err) 
+                        else
+                        setCurrentId('')
+                    });
+                    toast("Se elimino un contacto", {type: "error"});
+            }
+        }
+    
+
     return (
     <>
     <div class="jumbotron jumbotron-fluid">
@@ -53,7 +78,7 @@ const Contacts = () =>{
             <tbody>
                 {
                     Object.keys(contactObjs).map(id=>{
-                        return <tr>
+                        return <tr key={id}>
                             <td>{contactObjs[id].fullname}</td>
                             <td>{contactObjs[id].mobile}</td>
                             <td>{contactObjs[id].email}</td>
@@ -63,7 +88,7 @@ const Contacts = () =>{
                                 </a>
 
                                 
-                                <a className="btn text-danger">
+                                <a className="btn text-danger" onClick={() => {onDelete(id)}}>
                                     <i className="fas fa-trash-alt"></i>
                                 </a>
                             </td>
