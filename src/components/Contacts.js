@@ -3,6 +3,8 @@ import firebaseDb from "../firebase"
 import { ToastContainer, toast, Zoom, Bounce} from 'react-toastify';
 import axios from 'axios'
 import ContactsForm from "./ContactsForm"
+import Menu from "./Menu"
+
 
 
 const Contacts = () =>{
@@ -13,7 +15,7 @@ const Contacts = () =>{
 
 
     useEffect(()=>{
-        firebaseDb.child('contacts').on('value', snapshot=> {
+        firebaseDb.database().ref().child('contacts').on('value', snapshot=> {
             if(snapshot.val()!=null)
             setcontactObjs({...snapshot.val()})
             else
@@ -26,11 +28,11 @@ const Contacts = () =>{
   
          if (currentId === "") {
 
-                firebaseDb.child('contacts').push(obj,err =>{if(err) console.log(err)});
+            firebaseDb.database().ref().child('contacts').push(obj,err =>{if(err) console.log(err)});
                 toast.success("Registro añadido con éxito");
             }
         else{
-            firebaseDb.child(`contacts/${currentId}`).set(
+            firebaseDb.database().ref().child(`contacts/${currentId}`).set(
                 obj,err =>{
                     if(err)
                      console.log(err) 
@@ -43,7 +45,7 @@ const Contacts = () =>{
 
         const onDelete = key =>{
             if(window.confirm('¿Esta seguro de eliminar el registro?')){
-                firebaseDb.child(`contacts/${key}`).remove(
+                firebaseDb.database().ref().child(`contacts/${key}`).remove(
                     err =>{
                         if(err)
                          console.log(err) 
@@ -57,10 +59,14 @@ const Contacts = () =>{
 
     return (
     <>
+
+<Menu/>
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
           <h1 class="display-4 text-center">Contacts Register</h1>
         </div>
+
+    
     </div>
     <div className="row">
         <div className="col-md-5">
