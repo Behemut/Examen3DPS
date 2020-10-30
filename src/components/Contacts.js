@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react"
 import firebaseDb from "../firebase"
-import { ToastContainer, toast, Zoom, Bounce} from 'react-toastify';
-import axios from 'axios'
+import { ToastContainer, toast} from 'react-toastify';
 import ContactsForm from "./ContactsForm"
 import Menu from "./Menu"
 
@@ -27,7 +26,6 @@ const Contacts = () =>{
     const addOrEdit =  (obj) => {
   
          if (currentId === "") {
-
             firebaseDb.database().ref().child('contacts').push(obj,err =>{if(err) console.log(err)});
                 toast.success("Registro añadido con éxito");
             }
