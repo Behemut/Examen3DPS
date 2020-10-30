@@ -3,8 +3,12 @@ import { withRouter, Redirect } from "react-router";
 import app from "../firebase.js";
 import { AuthContext } from "./Auth.js";
 import 'firebase/auth'
+import {BrowserRouter, Switch, Route, Link} from 'react-router-dom'
+import {Dropdown} from 'react-bootstrap'
+import Google from './Google'
 
 
+//Login a traves de Correo
 const Login = ({ history }) => {
   const handleLogin = useCallback(
     async event => {
@@ -22,15 +26,10 @@ const Login = ({ history }) => {
     },
     [history]
   );
-
   const { currentUser } = useContext(AuthContext);
-
-
-
   if (currentUser) {
     return <Redirect to="/" />;
   }
-
   return (
     <>
     <div>
@@ -47,12 +46,14 @@ const Login = ({ history }) => {
         <button type="submit">Log in</button>
       </form>
     </div>
-
-
+    <Link to="/google">Continuar con Google</Link>
+  
     </>
   );
-
-
 };
 
+
+//Login atraves de Google oAuth
+
 export default withRouter(Login);
+

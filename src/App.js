@@ -13,7 +13,7 @@ import SignUp from './components/SignUp';
 import Contacts from './components/Contacts';
 import PrivateRoute from "./components/PrivateRoute"
 import { AuthProvider } from './components/Auth';
-import Google from './components/Google';
+import  Google  from './components/Google'
 
 
 
@@ -27,7 +27,7 @@ const  App = () => {
 <PrivateRoute exact path="/" component={Home} ></PrivateRoute>
 <PrivateRoute exact path="/clientes" component={Contacts}></PrivateRoute>
 <Route exact path="/login" component={Login} ></Route>
-<Route exact path="/google"  component={Google}></Route>
+<Route exact path="/google" component={Google} ></Route>
 <Route exact path="/signup" component={SignUp} />
   </div>
 
