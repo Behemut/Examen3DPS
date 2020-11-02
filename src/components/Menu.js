@@ -70,9 +70,9 @@ export default function SimpleTabs() {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-      <Contacts>
-        
-      </Contacts>
+
+      <Contacts/>
+      
       </TabPanel>
       <TabPanel value={value} index={1}>
 

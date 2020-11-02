@@ -3,6 +3,8 @@ import { withRouter, Redirect } from "react-router";
 import app from "../firebase.js";
 import { AuthContext } from "./Auth.js";
 import 'firebase/auth'
+import { ToastContainer, toast} from 'react-toastify';
+
 
 //Librerias de diseño
 import Avatar from '@material-ui/core/Avatar';
@@ -19,7 +21,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
-
+<ToastContainer/>
 
 //Login a traves de Correo
 const Login = ({ history }) => {
@@ -37,7 +39,16 @@ const Login = ({ history }) => {
         history.push("/");
 
       } catch (error) {
-        alert(error);
+        switch(error.code){
+          case 'auth/too-many-requests':
+            return toast.error('Demasiadas peticiones en poco tiempo, cuenta inhabilitada temporalmente')
+          case 'auth/wrong-password':
+            return toast.error('Contraseña incorrecta')
+          case 'auth/user-not-found':
+            return toast.error('Usuario no encontrado')
+          default:
+            return alert(error)
+        }     
       }
     },
     [history]
@@ -60,7 +71,7 @@ const Login = ({ history }) => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Iniciar sesión
           </Typography>
           <form onSubmit={handleLogin} className={classes.form} noValidate>
             <TextField
@@ -69,7 +80,7 @@ const Login = ({ history }) => {
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label="Correo electrónico"
               name="email"
               autoComplete="email"
               autoFocus
@@ -80,7 +91,7 @@ const Login = ({ history }) => {
               required
               fullWidth
               name="password"
-              label="Password"
+              label="Contraseña"
               type="password"
               id="password"
               autoComplete="current-password"
@@ -96,7 +107,7 @@ const Login = ({ history }) => {
               color="primary"
               className={classes.submit}
             >
-              Sign In
+              Iniciar sesión
             </Button>
             <Grid container>
               <Grid item xs>

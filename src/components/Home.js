@@ -2,7 +2,6 @@ import React, {useContext } from "react";
 import app from '../firebase';
 import { AuthContext } from "./Auth.js";
 import 'firebase/auth'
-import Contacts from './Contacts';
 import Menu from './Menu'
 import {Dropdown} from 'react-bootstrap'
 
