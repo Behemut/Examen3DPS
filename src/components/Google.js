@@ -1,13 +1,8 @@
-import React, { useCallback, useContext } from "react";
+import React, { Component, useCallback, useContext } from "react";
 import { withRouter, Redirect } from "react-router";
-import app from "../firebase.js";
-import { AuthContext } from "./Auth.js";
-import 'firebase/auth'
 import {BrowserRouter, Switch, Route, Link} from 'react-router-dom'
 import {Dropdown} from 'react-bootstrap'
-import Contacts from './Contacts';
-import Login from './Login'
-import GoogleLogin from "react-google-login";
+
 import Menu from "./Menu"
 
 const Dashboard = () => {
@@ -29,17 +24,17 @@ const Dashboard = () => {
                     <Dropdown.Menu>
                    
                         <Dropdown.Item  onClick={authInstance.signOut}>
-                        <Link to="/login">Cerrar sesion</Link> 
-                       
-
-
+                        <Link href="/" replace variant="body2">
+                          Cerrar Sesion
+                          </Link>
                         </Dropdown.Item>
+                   
                         
                     </Dropdown.Menu>
                 </Dropdown>
             </nav>
-            <div className="container">
-                <Contacts/>
+            <div>
+              <Menu/>
             </div>
         </>
     )
@@ -69,7 +64,8 @@ const LandingPage = () => {
     )
 }
 
-class App extends React.Component {
+class App extends Component {
+
     constructor(props) {
         super(props)
 
@@ -78,6 +74,7 @@ class App extends React.Component {
         }
     }
 
+   
     initializeGoogleSignIn() {
       window.gapi.load('auth2', () => {
         window.gapi.auth2.init({
@@ -88,7 +85,6 @@ class App extends React.Component {
           this.setState({isSignedIn})
 
           authInstance.isSignedIn.listen(isSignedIn => {
-         <Redirect to="/clientes" />
             this.setState({isSignedIn})
           })
         })

@@ -3,23 +3,33 @@ import app from '../firebase';
 import { AuthContext } from "./Auth.js";
 import 'firebase/auth'
 import Contacts from './Contacts';
-
+import Menu from './Menu'
+import {Dropdown} from 'react-bootstrap'
 
 const Home = () => {
 
   const { currentUser } = useContext(AuthContext);
 
-
-
-    return (
-      <>
-        <h1>Bienvenido {currentUser.email}</h1>
-        <button onClick={() => app.auth().signOut()}>Sign out</button>
-
-      
-      <Contacts></Contacts>
-            
-      </>
+    return ( 
+        <>
+            <nav>
+                <div></div>
+                <Dropdown>
+                    <Dropdown.Toggle as="a">
+                    {currentUser.email}
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                        <Dropdown.Item  onClick={() => app.auth().signOut()}>
+                          Cerrar Sesion
+                        </Dropdown.Item>
+                        
+                    </Dropdown.Menu>
+                </Dropdown>
+            </nav>
+            <div>
+              <Menu/>
+            </div>
+        </>
     );
   };
 
