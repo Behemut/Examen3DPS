@@ -75,6 +75,7 @@ const Contacts = () =>{
                     <th>Nombre Completo</th>
                     <th>DUI</th>
                     <th>Matricula</th>
+                    <th>Fecha de reparación</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -85,6 +86,7 @@ const Contacts = () =>{
                             <td>{contactObjs[id].fullname}</td>
                             <td>{contactObjs[id].dui}</td>
                             <td>{contactObjs[id].matricula}</td>
+                            <td>{contactObjs[id].fecha_reparacion}</td>
                             <td>
                                 <a className="btn text-primary" onClick={()=> {setCurrentId(id)}}>
                                     <i className="fas fa-pencil-alt"></i>
