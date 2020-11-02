@@ -2,8 +2,8 @@ import React,{useState, useEffect} from "react";
 import DirectionsCarIcon from '@material-ui/icons/DirectionsCar'
 import PeopleIcon from '@material-ui/icons/People';
 import FingerprintIcon from '@material-ui/icons/Fingerprint';
-
-
+import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
+import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -126,7 +126,7 @@ return (
     <div className="form-group input-group">
         <div className="input-group-prepend">
             <div className="input-group-text">
-            <i className="fas fa-home"></i>
+            <MonetizationOnIcon/>
         </div>
     </div>
     <TextField
@@ -146,7 +146,7 @@ return (
     <div className="form-group input-group">
         <div className="input-group-prepend">
             <div className="input-group-text">
-            <i className="fas fa-home"></i>
+               <CalendarTodayIcon />
         </div>
     </div>
     <TextField
