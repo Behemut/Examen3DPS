@@ -29,6 +29,7 @@ const ContactsForm = (props) =>{
         dui: '',
         matricula: '',
         reparacion: '',
+        fecha_reparacion: '',
         }
 
     const [values,setValues]= useState(initialFieldValue);
@@ -65,8 +66,18 @@ return (
            <PeopleIcon/>
         </div>
     </div>
-    <input className="form-control" placeholder="Full Name" name="fullname" value={values.fullname} 
-    onChange={handleInputChange}></input>
+    <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="fullname"
+              value={values.fullname}
+              onChange={handleInputChange}
+              label="Nombre completo"
+              name="fullname"
+              autoFocus
+            />
     </div>
 
 
@@ -120,8 +131,18 @@ return (
             <i className="fas fa-home"></i>
         </div>
     </div>
-    <input className="form-control" placeholder="Address" name="address" value={values.address}
-      onChange={handleInputChange} ></input>
+    <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="reparacion"
+              value={values.reparacion}
+              onChange={handleInputChange}
+              label="Costo de reparación"
+              name="reparacion"
+              autoFocus
+            />
     </div>
 
     <div className="form-group input-group">
@@ -131,10 +152,13 @@ return (
         </div>
     </div>
     <TextField
-        id="date"
-        label="Birthday"
+        id="fecha_reparacion"
+        name="fecha_reparacion"
+        label="Fecha de reparación"
         type="date"
-        defaultValue="2017-05-24"
+        defaultValue="2020-10-01"
+        value={values.fecha_reparacion}
+        onChange={handleInputChange}
         className={classes.textField}
         InputLabelProps={{
         shrink: true,
