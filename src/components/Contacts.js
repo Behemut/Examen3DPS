@@ -3,13 +3,12 @@ import firebaseDb from "../firebase"
 import { ToastContainer, toast} from 'react-toastify';
 import ContactsForm from "./ContactsForm"
 
-
 const Contacts = () =>{
+
 
     <ToastContainer/>
     var [contactObjs, setcontactObjs] = useState({});
     var [currentId, setCurrentId] = useState('');
-
 
     useEffect(()=>{
         firebaseDb.database().ref().child('contacts').on('value', snapshot=> {
@@ -19,6 +18,7 @@ const Contacts = () =>{
                setcontactObjs({})
         })
     },[])
+
 
   
     const addOrEdit =  (obj) => {
@@ -55,11 +55,13 @@ const Contacts = () =>{
         }
     
 
+     
+
     return (
     <>
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
-          <h1 class="display-4 text-center">Registro de clientes</h1>
+          <h1 class="display-4 text-center">Registro general</h1>
         </div>
 
     
@@ -74,8 +76,6 @@ const Contacts = () =>{
                 <tr>
                     <th>Nombre Completo</th>
                     <th>DUI</th>
-                    <th>Matricula</th>
-                    <th>Fecha de reparación</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -85,15 +85,15 @@ const Contacts = () =>{
                         return <tr key={id}>
                             <td>{contactObjs[id].fullname}</td>
                             <td>{contactObjs[id].dui}</td>
-                            <td>{contactObjs[id].matricula}</td>
-                            <td>{contactObjs[id].fecha_reparacion}</td>
                             <td>
-                                <a className="btn text-primary" onClick={()=> {setCurrentId(id)}}>
+                                <a className="btn text-primary" onClick={()=> {setCurrentId(id)}   }>
                                     <i className="fas fa-pencil-alt"></i>
                                 </a>          
                                 <a className="btn text-danger" onClick={() => {onDelete(id)}}>
                                     <i className="fas fa-trash-alt"></i>
                                 </a>
+
+
                             </td>
                         </tr>
                     })

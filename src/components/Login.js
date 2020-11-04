@@ -21,6 +21,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
+
+
+
 <ToastContainer/>
 
 //Login a traves de Correo
@@ -45,7 +48,7 @@ const Login = ({ history }) => {
           case 'auth/wrong-password':
             return toast.error('Contraseña incorrecta')
           case 'auth/user-not-found':
-            return toast.error('Usuario no encontrado')
+            return toast.error('Usuario no registrado')
           default:
             return alert(error)
         }     
@@ -128,6 +131,7 @@ const Login = ({ history }) => {
         </div>
       </Grid>
     </Grid>
+    
     </>
   );
 };

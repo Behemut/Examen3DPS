@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react"
 import firebaseDb from "../firebase"
-
-import AutoForm from './automovilesForm';
 import { ToastContainer, toast} from 'react-toastify';
+import ContactsForm from "./ContactsForm"
+import AutomovilesForm from './automovilesForm'
 
-
-const Contacts = () =>{
+const Automoviles = () =>{
 
     <ToastContainer/>
     var [contactObjs, setcontactObjs] = useState({});
@@ -24,13 +23,7 @@ const Contacts = () =>{
   
     const addOrEdit =  (obj) => {
   
-         if (currentId === "") {
-            firebaseDb.database().ref().child('contacts').push(obj,err =>{
-                toast.success("Registro añadido con éxito");
-            });
-                
-            }
-        else{
+         if (currentId !== "") {
             firebaseDb.database().ref().child(`contacts/${currentId}`).set(
                 obj,err =>{
                     if(err)
@@ -60,23 +53,24 @@ const Contacts = () =>{
     <>
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
-          <h1 class="display-4 text-center">Registro de automoviles</h1>
+          <h1 class="display-4 text-center">Gestión de vehículos</h1>
         </div>
 
     
     </div>
     <div className="row">
         <div className="col-md-5">
-          <AutoForm {...{addOrEdit, currentId, contactObjs}}/>
+          <AutomovilesForm {...{addOrEdit, currentId, contactObjs}}/>
         </div>
         <div className="col-md-7">
             <table className="table table-borderless table-stripped">
             <thead>
                 <tr>
-                    <th>Fullname</th>
-                    <th>Mobile</th>
-                    <th>Email</th>
-                    <th>Actions</th>
+                    <th>Nombre Completo</th>
+                    <th>Matricula</th>
+                    <th>Costo de reparación</th>
+                    <th>Fecha de reparación</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -84,8 +78,9 @@ const Contacts = () =>{
                     Object.keys(contactObjs).map(id=>{
                         return <tr key={id}>
                             <td>{contactObjs[id].fullname}</td>
-                            <td>{contactObjs[id].mobile}</td>
-                            <td>{contactObjs[id].email}</td>
+                            <td>{contactObjs[id].matricula}</td>
+                            <td>${contactObjs[id].reparacion}</td>
+                            <td>{contactObjs[id].fecha_reparacion}</td>
                             <td>
                                 <a className="btn text-primary" onClick={()=> {setCurrentId(id)}}>
                                     <i className="fas fa-pencil-alt"></i>
@@ -105,4 +100,4 @@ const Contacts = () =>{
     )
 }
 
-export default Contacts ;
+export default Automoviles ;

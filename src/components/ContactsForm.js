@@ -24,18 +24,19 @@ const ContactsForm = (props) =>{
     const classes = useStyles();
 
 
+
     const initialFieldValue={
         fullname: '',
         dui: '',
         matricula: '',
         reparacion: '',
-        fecha_reparacion: '',
+        fecha_reparacion: ''
         }
 
     const [values,setValues]= useState(initialFieldValue);
 
 const handleInputChange = e =>{
-    const {name, value} = e.target ;
+    const {name, value} = e.target ;    
     setValues({...values,[name]: value});
 }
 
@@ -55,6 +56,14 @@ setValues({
 })
 },[props.currentId, props.contactObjs])
 
+const  TextFile = () => {
+    const element = document.createElement("a");
+    const file = new Blob([document.getElementById('fullname').value], {type: 'text/plain'});
+    element.href = URL.createObjectURL(file);
+    element.download = "myFile.txt";
+    document.body.appendChild(element); // Required for this to work in FireFox
+    element.click();
+  }
 
 
 return (
@@ -66,6 +75,7 @@ return (
            <PeopleIcon/>
         </div>
     </div>
+    <div className="container">
     <TextField
               variant="outlined"
               margin="normal"
@@ -76,8 +86,9 @@ return (
               onChange={handleInputChange}
               label="Nombre completo"
               name="fullname"
-              autoFocus
+              
             />
+            </div>
     </div>
 
 
@@ -97,7 +108,6 @@ return (
               onChange={handleInputChange}
               label="Documento Único de Identidad"
               name="dui"
-              autoFocus
             />
     </div>
 
@@ -113,12 +123,12 @@ return (
               margin="normal"
               required
               fullWidth
+             
               id="matricula"
               value={values.matricula}
               onChange={handleInputChange}
               label="Matricula"
               name="matricula"
-              autoFocus
             />
     </div>
 
@@ -128,7 +138,9 @@ return (
             <div className="input-group-text">
             <MonetizationOnIcon/>
         </div>
+     
     </div>
+ 
     <TextField
               variant="outlined"
               margin="normal"
@@ -138,8 +150,8 @@ return (
               value={values.reparacion}
               onChange={handleInputChange}
               label="Costo de reparación"
+              
               name="reparacion"
-              autoFocus
             />
     </div>
 
@@ -167,8 +179,11 @@ return (
     <div className="form-group">
     <input type="submit" value = {props.currentId === '' ? "Guardar":"Modificar"} className="btn btn-primary btn-block" />
     </div>
-
    </form>
+
+   <div >
+    <button  onClick={()=> TextFile()}>Imprimir</button>
+    </div>
 </>
     );
 
