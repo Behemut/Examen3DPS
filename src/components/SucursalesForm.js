@@ -45,7 +45,7 @@ const handleFormSubmit = e =>{
     if(values.ganancias>=30000)
     values.estado="Excelente Trabajo"
     else
-    values.estado="Bueno Trabajo"
+    values.estado="Buen Trabajo"
 
 
    props.addOrEdit(values);

@@ -5,12 +5,16 @@ import firebaseDb from "../firebase"
 import { ToastContainer, toast} from 'react-toastify';
 import ContactsForm from "./SucursalesForm"
 
+
+
 const Sucursales = () =>{
 
 
     <ToastContainer/>
     var [contactObjs, setcontactObjs] = useState({});
     var [currentId, setCurrentId] = useState('');
+    const result = Object.values(contactObjs);
+
 
     useEffect(()=>{
         firebaseDb.database().ref().child('contacts').on('value', snapshot=> {
@@ -22,13 +26,14 @@ const Sucursales = () =>{
     },[])
 
 
+
   
     const addOrEdit =  (obj) => {
  
     //EVALUANDO ANTES DEL SUBMIT
        
-        if (obj.sucursal===''|| obj.ganancias <=1000 || obj.nempleados <=10){
-            if(obj.sucursal==='' ||  obj.ganancias<0 || obj.nempleados<0){
+        if (obj.sucursal===''|| obj.ganancias <=1000 && obj.nempleados <=10){
+            if(obj.sucursal==='' ||  obj.ganancias<0 && obj.nempleados<0){
                 alert('Valores no permitidos, rellene el formulario correctamente')
             }
            else alert("No se permite ganancias inferiores a $1000 y registro de empleados menos a 10 personas, relleno el formulario nuevamente")
@@ -53,14 +58,11 @@ const Sucursales = () =>{
                     setCurrentId('')
                 });
                 toast("Registro actualizado", {type: "info"});
+                }
             }
-
-
         }
 
         
-
-        }
 
         const onDelete = key =>{
             if(window.confirm('¿Esta seguro de eliminar el registro?')){
@@ -75,8 +77,21 @@ const Sucursales = () =>{
             }
         }
     
-
-     
+        const sumatoriaTotal = () =>{
+            var suma=0;
+            for(var i=0; i<result.length; i++)
+            {
+                suma+= parseInt(result[i].ganancias);
+            }
+            console.log(suma);
+            return (
+                <>
+                <br></br>
+            <h2>Sumatoria total de las ganancias en general  ${suma}</h2>
+                </>
+            )
+        }
+      
 
     return (
     <>
@@ -84,12 +99,13 @@ const Sucursales = () =>{
         <div class="container">
           <h1 class="display-4 text-center">Registro general</h1>
         </div>
-
-    
+       {sumatoriaTotal()}
+        
     </div>
     <div className="row">
         <div className="col-md-5">
           <ContactsForm {...{addOrEdit, currentId, contactObjs}}/>
+        
         </div>
         <div className="col-md-7">
             <table className="table table-borderless table-stripped">
@@ -102,28 +118,36 @@ const Sucursales = () =>{
                 </tr>
             </thead>
             <tbody>
-                {
-                    Object.keys(contactObjs).map(id=>{
-                        if (contactObjs[id].ganancias > 1050){
+                { 
 
-                        return <tr key={id}>
+               
+                   
+                    Object.keys(contactObjs).map(id=>{ 
+                    return <>
+                    <tr key={id}>
+                   
                         <td>{contactObjs[id].sucursal}</td>
                         <td>{contactObjs[id].nempleados}</td>
-                        <td>{contactObjs[id].ganancias }</td>
+                        <td>${contactObjs[id].ganancias }</td>
                         <td>{contactObjs[id].estado}</td>
+                         
                             <td>
                                 <a className="btn text-primary" onClick={()=> {setCurrentId(id)}   }>
                                     <i className="fas fa-pencil-alt"></i>
                                 </a>          
                                 <a className="btn text-danger" onClick={() => {onDelete(id)}}>
                                     <i className="fas fa-trash-alt"></i>
-                                </a>
-
-
+                                </a>  
                             </td>
-                        </tr>
-                        }
-                    })
+                            <sumatoriaTotal/>
+                  
+                        </tr>  
+                   
+                        </>
+                    }
+                    
+                    
+                    )
                 }
             </tbody>
             </table>
