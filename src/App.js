@@ -1,4 +1,3 @@
-
 import {BrowserRouter  as Router, Route} from 'react-router-dom';
 import './App.css';
 import { ToastContainer } from 'react-toastify';
@@ -16,13 +15,10 @@ const  App = () => {
  <AuthProvider>
 <Router>
 <ToastContainer/>
-  <div>
 <PrivateRoute exact path="/" component={Home} ></PrivateRoute>
 <Route exact path="/login" component={Login} ></Route>
 <Route exact path="/google" component={Google} ></Route>
 <Route exact path="/signup" component={SignUp} />
-  </div>
-
 </Router>
 </AuthProvider>
   );

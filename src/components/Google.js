@@ -1,8 +1,8 @@
 import React, { Component, } from "react";
-import { withRouter } from "react-router";
-import {BrowserRouter, Switch, Route, Link} from 'react-router-dom'
+import {  withRouter } from "react-router";
+import {BrowserRouter, Switch, Route,} from 'react-router-dom'
 import {Dropdown} from 'react-bootstrap'
-
+import { useHistory } from 'react-router-dom';
 import Menu from "./Menu"
 
 const Dashboard = () => {
@@ -11,6 +11,13 @@ const Dashboard = () => {
     const profile = user.getBasicProfile()
     const email = profile.getEmail()
     const imageUrl = profile.getImageUrl()
+
+    const history = useHistory();
+
+    const handleClick = () => {
+        history.push("/login");
+    }
+
 
     return (
         <>
@@ -24,9 +31,10 @@ const Dashboard = () => {
                     <Dropdown.Menu>
                    
                         <Dropdown.Item  onClick={authInstance.signOut}>
-                        <Link href="/" replace variant="body2">
+                        <button onClick={handleClick}>
                           Cerrar Sesion
-                          </Link>
+                            </button>
+                    
                         </Dropdown.Item>
                    
                         

@@ -4,8 +4,12 @@ import React, { useState, useEffect } from "react"
 import firebaseDb from "../firebase"
 import { ToastContainer, toast} from 'react-toastify';
 import ContactsForm from "./SucursalesForm"
-
-
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormHelperText from "@material-ui/core/FormHelperText"
 
 const Sucursales = () =>{
 
@@ -14,7 +18,15 @@ const Sucursales = () =>{
     var [contactObjs, setcontactObjs] = useState({});
     var [currentId, setCurrentId] = useState('');
     const result = Object.values(contactObjs);
+    const [checked, setChecked] = React.useState({
+        foo: false,
+        bar: false
+      });
 
+      const handleChange = event => {
+        setChecked({ ...checked, [event.target.name]: event.target.checked });
+        console.log(checked)
+      };
 
     useEffect(()=>{
         firebaseDb.database().ref().child('contacts').on('value', snapshot=> {
@@ -87,7 +99,7 @@ const Sucursales = () =>{
             return (
                 <>
                 <br></br>
-            <h2>Sumatoria total de las ganancias en general  ${suma}</h2>
+            <h2>Ganancias total de la empresa: ${suma}</h2>
                 </>
             )
         }
@@ -107,22 +119,56 @@ const Sucursales = () =>{
           <ContactsForm {...{addOrEdit, currentId, contactObjs}}/>
         
         </div>
+
+
+     
+
+      
         <div className="col-md-7">
+            
+        <div>
+      <FormControl component="fieldset">
+        <FormLabel component="legend">Filtro de las sucursales</FormLabel>
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={checked.foo}
+                onChange={handleChange}
+                name="foo"
+              />
+            }
+            label="Sucursales que obtienen ganancias entre $1,000 y $25,000"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={checked.bar}
+                onChange={handleChange}
+                name="bar"
+              />
+            }
+            label="Sucursales que obtienen ganancias mayores de $30,000"
+          />
+        </FormGroup>
+      </FormControl>
+    </div>
             <table className="table table-borderless table-stripped">
             <thead>
                 <tr>
                     <th>Nombre Sucursal</th>
                     <th>Empleados</th>
                     <th>Ganancias</th>
-                    <th>Estado</th>
+                    <th>Mensaje</th>
                 </tr>
             </thead>
             <tbody>
                 { 
-
-               
-                   
+            
                     Object.keys(contactObjs).map(id=>{ 
+                      
+                    if(checked.foo===true){
+                        if (contactObjs[id].ganancias>=1000 && contactObjs[id].ganancias<=25000 ){
                     return <>
                     <tr key={id}>
                    
@@ -139,14 +185,35 @@ const Sucursales = () =>{
                                     <i className="fas fa-trash-alt"></i>
                                 </a>  
                             </td>
-                            <sumatoriaTotal/>
-                  
                         </tr>  
-                   
                         </>
-                    }
-                    
-                    
+                            } 
+                        }
+
+                    if(checked.bar===true){
+                            if (contactObjs[id].ganancias>=30000){
+                        return <>
+                        <tr key={id}>
+                       
+                            <td>{contactObjs[id].sucursal}</td>
+                            <td>{contactObjs[id].nempleados}</td>
+                            <td>${contactObjs[id].ganancias }</td>
+                            <td>{contactObjs[id].estado}</td>
+                             
+                                <td>
+                                    <a className="btn text-primary" onClick={()=> {setCurrentId(id)}   }>
+                                        <i className="fas fa-pencil-alt"></i>
+                                    </a>          
+                                    <a className="btn text-danger" onClick={() => {onDelete(id)}}>
+                                        <i className="fas fa-trash-alt"></i>
+                                    </a>  
+                                </td>
+                            </tr>  
+                            </>
+                                } 
+                            }
+                         
+                            }
                     )
                 }
             </tbody>

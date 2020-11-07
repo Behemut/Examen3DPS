@@ -12,7 +12,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { ToastContainer, toast} from 'react-toastify';
+import { ToastContainer} from 'react-toastify';
 <ToastContainer/>
 
 const SignUp = ({ history }) => {
@@ -25,7 +25,7 @@ const SignUp = ({ history }) => {
         .createUserWithEmailAndPassword(email.value, password.value);
       history.push("/");
     } catch (error) {
-      toast.error('¡Rellene el formulario!')
+      alert(error)
     }
   }, [history]);
 
